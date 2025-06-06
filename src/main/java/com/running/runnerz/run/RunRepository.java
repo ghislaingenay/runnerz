@@ -23,5 +23,12 @@ public class RunRepository {
         runs.add(new Run(2, "Evening Run", LocalDateTime.now().minusHours(2), LocalDateTime.now().minusHours(1), 10, Location.INDOOR));
         runs.add(new Run(3, "Night Run", LocalDateTime.now().minusHours(3), LocalDateTime.now().minusHours(2), 15, Location.OUTDOOR));
     }
+
+    public Run findById(Integer id) {
+        return runs.stream()
+                .filter(run -> run.id().equals(id))
+                .findFirst()
+                .orElse(null);
+    }
    
 }
