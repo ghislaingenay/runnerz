@@ -30,5 +30,27 @@ public class RunRepository {
                 .filter(run -> run.id().equals(id))
                 .findFirst();
     }
+
+    public void create(Run run) {
+        runs.add(run);
+    }
+
+    public void update(Integer id, Run run) {
+        Optional<Run> existingRun = findById(id);
+        if (existingRun.isPresent()) {
+            runs.remove(existingRun.get());
+            runs.add(run);
+        } else {
+            throw new RunNotFoundException();
+        }
+    }
+    public void delete(Integer id) {
+        Optional<Run> existingRun = findById(id);
+        if (existingRun.isPresent()) {
+            runs.remove(existingRun.get());
+        } else {
+            throw new RunNotFoundException();
+        }
+    }
    
 }
