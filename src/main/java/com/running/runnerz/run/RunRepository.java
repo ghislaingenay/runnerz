@@ -3,6 +3,7 @@ package com.running.runnerz.run;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Repository;
 
@@ -24,11 +25,10 @@ public class RunRepository {
         runs.add(new Run(3, "Night Run", LocalDateTime.now().minusHours(3), LocalDateTime.now().minusHours(2), 15, Location.OUTDOOR));
     }
 
-    public Run findById(Integer id) {
+    public Optional<Run> findById(Integer id) {
         return runs.stream()
                 .filter(run -> run.id().equals(id))
-                .findFirst()
-                .orElse(null);
+                .findFirst();
     }
    
 }
