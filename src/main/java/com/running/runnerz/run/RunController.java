@@ -44,7 +44,7 @@ public class RunController {
 
   @PostMapping("")
   public ResponseEntity<Run> create(@Valid @RequestBody Run run) {
-    if (null == run || null == run.id() || null == run.title() || null == run.startTime() || null == run.endTime() || null == run.kms() || null == run.location()) {
+    if (null == run || null == run.id() || null == run.title() || null == run.start_time() || null == run.end_time() || null == run.kms() || null == run.location()) {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid Run data");
     }
     runRepository.create(run);
