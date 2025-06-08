@@ -1,0 +1,4 @@
+-- INSERT INTO run (id, title, start_time, end_time, kms, location_id)
+-- VALUES
+--   (1, 'Morning Run', '2025-06-07 06:30:00', '2025-06-07 07:15:00', 10, 1),
+--   (2, 'Evening Jog', '2025-06-06 18:00:00', '2025-06-06 18:45:00', 8, 2);

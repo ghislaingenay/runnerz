@@ -1,0 +1,10 @@
+CREATE TABLE IF NOT EXISTS Run {
+  id INT NOT NULL,  
+  title VARCHAR(255) NOT NULL,
+  start_time TIMESTAMP NOT NULL,
+  end_time TIMESTAMP NOT NULL,
+  kms INT NOT NULL,
+  version INT NOT NULL,
+  location VARCHAR(255) NOT NULL,
+  PRIMARY KEY (id)
+}
