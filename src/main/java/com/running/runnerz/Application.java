@@ -1,11 +1,19 @@
 package com.running.runnerz;
 
 
-import io.github.cdimascio.dotenv.Dotenv;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.Bean;
+import org.springframework.web.client.RestClient;
+import org.springframework.web.client.support.RestClientAdapter;
+import org.springframework.web.service.invoker.HttpServiceProxyFactory;
+
+import com.running.runnerz.user.UserHttpClient;
+
+import io.github.cdimascio.dotenv.Dotenv;
 
 @SpringBootApplication
 public class Application {
@@ -16,6 +24,13 @@ public class Application {
 		Dotenv.configure().ignoreIfMissing().load();
 		SpringApplication.run(Application.class, args);
 		log.info("Application started successfully!");
+	}
+
+	@Bean
+	public UserHttpClient userHttpClient(@Value("${user.api.base-url}") String baseUrl) {
+		RestClient restClient = RestClient.create(baseUrl);
+		HttpServiceProxyFactory factory = HttpServiceProxyFactory.builderFor(RestClientAdapter.create(restClient)).build();
+		return factory.createClient(UserHttpClient.class);
 	}
 
 	// run after the application has started
