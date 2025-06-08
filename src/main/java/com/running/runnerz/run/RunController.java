@@ -47,7 +47,7 @@ public class RunController {
     if (null == run || null == run.id() || null == run.title() || null == run.startTime() || null == run.endTime() || null == run.kms() || null == run.location()) {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid Run data");
     }
-    runRepository.create(run);
+    runRepository.save(run);
     if (runRepository.findById(run.id()).isEmpty()) {
       throw new RunNotFoundException();
     }
@@ -62,7 +62,7 @@ public class RunController {
     }
     Optional<Run> existingRun = runRepository.findById(id);
     if(existingRun.isEmpty()) throw new RunNotFoundException();
-    runRepository.update(id, run);
+    runRepository.update(run.id(), run.title(), run.startTime(), run.endTime(), run.kms(), run.location());
     return ResponseEntity.status(HttpStatus.OK).body(run);
   }
 
@@ -72,7 +72,7 @@ public class RunController {
     if (existingRun.isEmpty()) {
       throw new RunNotFoundException();
     }
-    runRepository.delete(id);
+    runRepository.delete(existingRun.get());
     return ResponseEntity.noContent().build();
   }
 
