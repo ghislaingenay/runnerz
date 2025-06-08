@@ -10,13 +10,13 @@ import org.springframework.stereotype.Repository;
 import org.springframework.util.Assert;
 
 @Repository
-public class RunRepository {
-    private static final Logger log = LoggerFactory.getLogger(RunRepository.class);
+public class JdbcClientRunRepository {
+    private static final Logger log = LoggerFactory.getLogger(JdbcClientRunRepository.class);
     private final JdbcClient jdbcClient;
 
-    public RunRepository(JdbcClient jdbcClient) {
+    public JdbcClientRunRepository(JdbcClient jdbcClient) {
         this.jdbcClient = jdbcClient;
-        log.info("RunRepository initialized with JdbcClient: {}", jdbcClient);
+        log.info("JdbcClientRunRepository initialized with JdbcClient: {}", jdbcClient);
     }
 
     public List<Run> findAll() {

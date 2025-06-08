@@ -14,17 +14,17 @@ import com.running.runnerz.utils.JsonParser;
 @Component
 public class RunJsonDataLoader implements  CommandLineRunner {
 
-    private final RunRepository runRepository;
+    private final JdbcClientRunRepository JdbcClientRunRepository;
     private static final Logger log = LoggerFactory.getLogger(RunJsonDataLoader.class);
     private final JsonParser jsonParser = new JsonParser();
 
-    public RunJsonDataLoader(RunRepository runRepository) {
-        this.runRepository = runRepository;
+    public RunJsonDataLoader(JdbcClientRunRepository JdbcClientRunRepository) {
+        this.JdbcClientRunRepository = JdbcClientRunRepository;
     }
 
     @Override
     public void run(String... args) throws Exception {
-      if (runRepository.count() > 0) {
+      if (JdbcClientRunRepository.count() > 0) {
             log.info("Run repository already contains data, skipping JSON data loading.");
             return;
         } else {
@@ -37,7 +37,7 @@ public class RunJsonDataLoader implements  CommandLineRunner {
             }
             // Parse the JSON file into a list of Run objects
             List<Run> runs = jsonParser.parseJson(inputStream.toString(), new TypeReference<List<Run>>() {});
-            runRepository.saveAll(runs);
+            JdbcClientRunRepository.saveAll(runs);
             log.info("Successfully loaded {} runs from JSON file.", runs.size());
         } catch (Exception e) {
             log.error("Error loading runs from JSON file: {}", e.getMessage());
@@ -46,7 +46,7 @@ public class RunJsonDataLoader implements  CommandLineRunner {
         // and save the runs to the repository.
         // For example:
         // List<Run> runs = loadRunsFromJson();
-        // runRepository.saveAll(runs);
+        // JdbcClientRunRepository.saveAll(runs);
         }
     }
 

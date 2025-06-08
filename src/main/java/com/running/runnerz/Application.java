@@ -17,7 +17,7 @@ public class Application {
 
 	// run after the application has started
 	// @Bean 
-	// public CommandLineRunner runner(RunRepository runRepository) {
+	// public CommandLineRunner runner(JdbcClientRunRepository JdbcClientRunRepository) {
 	// 	return args -> {
 	// 		Run run = new Run(
 	// 			1,
@@ -27,7 +27,7 @@ public class Application {
 	// 			5,
 	// 			Location.OUTDOOR
 	// 		);
-	// 		runRepository.create(run);
+	// 		JdbcClientRunRepository.create(run);
 	// 	};
 	// }
 
