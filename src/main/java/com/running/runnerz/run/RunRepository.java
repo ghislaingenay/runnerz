@@ -55,4 +55,23 @@ public class RunRepository {
                 .update();
         log.info("Run with id {} deleted", id);
     }
+
+    public int count() {
+        return jdbcClient.sql("SELECT COUNT(*) FROM runs")
+                .query().listOfRows().size();
+    }
+
+    public void saveAll(List<Run> runs) {
+        Assert.notEmpty(runs, "Runs list must not be empty");
+        for (Run run : runs) {
+            create(run);
+        }
+        log.info("Saved {} runs", runs.size());
+    }
+
+    public List<Run> findByLocation(String location) {
+        return jdbcClient.sql("SELECT * FROM runs WHERE location = :location")
+                .param("location", location)
+                .query(Run.class).list();
+    }
 }
