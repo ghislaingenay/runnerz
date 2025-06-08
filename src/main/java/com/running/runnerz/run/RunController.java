@@ -21,20 +21,20 @@ import jakarta.validation.Valid;
 @RequestMapping("/api/runs")
 public class RunController {
 
-  private final JdbcClientRunRepository JdbcClientRunRepository;
+  private final RunRepository runRepository;
 
-  public RunController(JdbcClientRunRepository JdbcClientRunRepository) {
-    this.JdbcClientRunRepository = JdbcClientRunRepository;
+  public RunController(RunRepository runRepository) {
+    this.runRepository = runRepository;
   }
   
   @GetMapping("")
   public List<Run> findAll() {
-    return JdbcClientRunRepository.findAll();
+    return runRepository.findAll();
   }
 
   @GetMapping("/{id}")
   public Run findById(@PathVariable("id") Integer id) {
-    Optional<Run> run = JdbcClientRunRepository.findById(id);
+    Optional<Run> run = runRepository.findById(id);
     if (run.isEmpty()) {
       throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Run not found with id: " + id);
     } 
@@ -47,8 +47,8 @@ public class RunController {
     if (null == run || null == run.id() || null == run.title() || null == run.startTime() || null == run.endTime() || null == run.kms() || null == run.location()) {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid Run data");
     }
-    JdbcClientRunRepository.create(run);
-    if (JdbcClientRunRepository.findById(run.id()).isEmpty()) {
+    runRepository.save(run);
+    if (runRepository.findById(run.id()).isEmpty()) {
       throw new RunNotFoundException();
     }
     // Optionally, you can return the created run or a success message
@@ -60,19 +60,19 @@ public class RunController {
     if (null == run || !run.id().equals(id) || null == run.title() || null == run.startTime() || null == run.endTime() || null == run.kms() || null == run.location()) {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Invalid Run data");
     }
-    Optional<Run> existingRun = JdbcClientRunRepository.findById(id);
+    Optional<Run> existingRun = runRepository.findById(id);
     if(existingRun.isEmpty()) throw new RunNotFoundException();
-    JdbcClientRunRepository.update(id, run);
+    runRepository.update(run.id(), run.title(), run.startTime(), run.endTime(), run.kms(), run.location());
     return ResponseEntity.status(HttpStatus.OK).body(run);
   }
 
   @DeleteMapping("/{id}")
   public ResponseEntity<Object> delete(@PathVariable("id") Integer id) {
-    Optional<Run> existingRun = JdbcClientRunRepository.findById(id);
+    Optional<Run> existingRun = runRepository.findById(id);
     if (existingRun.isEmpty()) {
       throw new RunNotFoundException();
     }
-    JdbcClientRunRepository.delete(id);
+    runRepository.delete(existingRun.get());
     return ResponseEntity.noContent().build();
   }
 
